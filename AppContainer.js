@@ -8,6 +8,8 @@ import {
   TabBarIOS
 } from 'react-native';
 
+var Jobs=require('./Jobs')
+
 class AppContainer extends Component{
   constructor(props){
     super(props)
@@ -24,9 +26,7 @@ class AppContainer extends Component{
             icon={require('image!schedule')}
             onPress={()=>this.setState({selectedTab: 'jobs'})}
             >
-            <Text style={styles.welcome}>
-              Tab 1
-            </Text>
+            <Jobs/>
             </TabBarIOS.Item>
             <TabBarIOS.Item
             title='Search'
