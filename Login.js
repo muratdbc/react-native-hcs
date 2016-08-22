@@ -19,6 +19,17 @@ class Login extends Component{
     }
   }
   render() {
+    var errorCtrl=<View/>;
+    if(!this.state.success && this.state.badCredentials){
+      errorCtrl=<Text style={styles.error}>
+      The email and password you entered do NOT match.
+      </Text>
+    }
+    if(!this.state.success && this.state.unknownError){
+      errorCtrl=<Text style={styles.error}>
+      Something went wrong! please try again later.
+      </Text>
+    }
     return (
         <View style={styles.container}>
         <Image style={styles.logo}
@@ -39,6 +50,7 @@ class Login extends Component{
         Log in
         </Text>
         </TouchableHighlight>
+        {errorCtrl}
         <ActivityIndicator
           animating={this.state.showProgress}
           size="large"
@@ -55,29 +67,14 @@ class Login extends Component{
       email: this.state.username,
       password: this.state.password
     };
-    var formBody = [];
-    for (var property in details) {
-      var encodedKey = encodeURIComponent(property);
-      var encodedValue = encodeURIComponent(details[property]);
-      formBody.push(encodedKey + "=" + encodedValue);
-    }
-    formBody = formBody.join("&");
-    console.log(formBody)
-
-    fetch('http://localhost:9000/users/authenticate', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/x-www-form-urlencoded'
-      },
-      body: formBody
-    })
-    .then((response)=>{
-      console.log(response.status)
-      return response.json
-    })
-    .then((results)=>{
-      console.log(results)
-      this.setState({showProgress:false})
+    var authService= require('./AuthService')
+    authService.login(details,(results)=>{
+      this.setState(Object.assign({
+        showProgress:false
+      },results));
+      if(results.success && this.props.onLogin){
+        this.props.onLogin();
+      }
     })
   }
 }
@@ -120,6 +117,10 @@ var styles=StyleSheet.create({
   },
   loader:{
     marginTop:20
+  },
+  error:{
+    color:'red',
+    marginTop:10
   }
 })
 module.exports= Login;
