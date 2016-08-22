@@ -21,6 +21,7 @@ var HCS =React.createClass({
 
   componentDidMount:function(){
       AuthService.getAuthInfo((err,authInfo)=>{
+        console.log(authInfo)
         this.setState({
           checkingAuth:false,
           isLoggedIn: authInfo != null

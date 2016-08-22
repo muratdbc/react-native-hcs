@@ -5,7 +5,8 @@ import {
   StyleSheet,
   Text,
   View,
-  TabBarIOS
+  TabBarIOS,
+  NavigatorIOS
 } from 'react-native';
 
 var Jobs=require('./Jobs')
@@ -26,7 +27,13 @@ class AppContainer extends Component{
             icon={require('image!schedule')}
             onPress={()=>this.setState({selectedTab: 'jobs'})}
             >
-            <Jobs/>
+             <NavigatorIOS
+                style={{flex:1}}
+                initialRoute={{
+                  component: Jobs,
+                  title:'Jobs'
+                }}
+                />
             </TabBarIOS.Item>
             <TabBarIOS.Item
             title='Search'
@@ -35,7 +42,7 @@ class AppContainer extends Component{
             onPress={()=>this.setState({selectedTab: 'search'})}
             >
             <Text style={styles.welcome}>
-              Tab 2
+              Search
             </Text>
             </TabBarIOS.Item>
         </TabBarIOS>

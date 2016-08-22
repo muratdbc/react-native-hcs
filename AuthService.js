@@ -14,7 +14,8 @@ class AuthService {
       }
       var zippedObj=_.zipObject(val);
 
-      var authInfo={user:zippedObj[userKey]}
+      var authInfo={user:val[0][1]}
+
 
       return cb(null,authInfo)
 
@@ -28,7 +29,6 @@ class AuthService {
       formBody.push(encodedKey + "=" + encodedValue);
     }
     formBody = formBody.join("&");
-    console.log(formBody)
 
     fetch('http://localhost:9000/users/authenticate', {
       method: 'POST',
