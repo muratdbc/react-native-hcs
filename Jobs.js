@@ -29,7 +29,7 @@ class Jobs extends Component{
   fetchJobs(){
     require('./AuthService').getAuthInfo((err,authInfo)=>{
       var accessToken=JSON.parse(authInfo.user).accessToken
-      var url="http://localhost:9000/maintenance-jobs?token="+accessToken
+      var url="https://api.test.rentlever.com/maintenance-jobs?token="+accessToken
       fetch(url)
       .then((response)=>response.json())
       .then((responseData)=>{

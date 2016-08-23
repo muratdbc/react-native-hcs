@@ -24,7 +24,9 @@ var HCS =React.createClass({
         console.log(authInfo)
         this.setState({
           checkingAuth:false,
-          isLoggedIn: authInfo != null
+          //this logic needs to change
+          //to reflect if the user is logged in
+          isLoggedIn: false
         })
       });
   },

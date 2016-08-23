@@ -30,7 +30,7 @@ class AuthService {
     }
     formBody = formBody.join("&");
 
-    fetch('http://localhost:9000/users/authenticate', {
+    fetch('https://api.test.rentlever.com/users/authenticate', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/x-www-form-urlencoded'
