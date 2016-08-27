@@ -28,8 +28,8 @@ class Jobs extends Component{
   }
   fetchJobs(){
     require('./AuthService').getAuthInfo((err,authInfo)=>{
-      var accessToken=JSON.parse(authInfo.user).accessToken
-      var url="https://api.test.rentlever.com/maintenance-jobs?token="+accessToken
+      console.log(authInfo)
+      var url="http://localhost:9000/maintenance-jobs?token="+authInfo.user
       fetch(url)
       .then((response)=>response.json())
       .then((responseData)=>{
@@ -37,6 +37,7 @@ class Jobs extends Component{
             responseData.filter((job)=>
               job.jobDate>moment().format("YYYY-MM-DD")
             )
+        console.log(upcomingJobsList)
         this.setState({
           dataSource: this.state.dataSource.cloneWithRows(upcomingJobsList),
           showProgress:false
@@ -47,7 +48,7 @@ class Jobs extends Component{
   }
   pressRow(rowData){
     this.props.navigator.push({
-      title: 'Push Event',
+      title: 'Job Details Page',
       component: PushPayload,
       passProps: {
         pushEvent: rowData
@@ -62,16 +63,16 @@ class Jobs extends Component{
         <View style={{
           flex:1,
           flexDirection:'row',
-          padding:20,
+          padding:15,
           alignItems:'center',
           borderColor: '#D7D7D6',
           borderBottomWidth:1
         }}>
-        <View style={{paddingLeft:5}}>
-          <Text style={{paddingBottom:5}}>
-          Job Date/Time: {moment(rowData.jobDate+" "+rowData.jobTime).format('LLLL')}
+        <View style={{paddingLeft:0}}>
+          <Text style={{paddingBottom:5,fontSize:16}}>
+          Job Date/Time: {moment(rowData.jobDate+" "+rowData.jobTime).format('MMM-DD-YYYY hh:mm a')}
           </Text>
-          <Text style={{}}>
+          <Text style={{fontSize:16}}>
           Rental Address : {rowData.rental.address1}
           </Text>
           <Text style={{}}></Text>

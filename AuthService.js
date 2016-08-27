@@ -5,16 +5,16 @@ var _=require('lodash')
 const userKey = 'user';
 class AuthService {
   getAuthInfo(cb){
-    AsyncStorage.multiGet([userKey],(err,val)=>{
+    AsyncStorage.getItem(userKey,(err,val)=>{
       if(err){
         return cb(err)
       }
       if(!val){
         return cb()
       }
-      var zippedObj=_.zipObject(val);
+      console.log(val)
 
-      var authInfo={user:val[0][1]}
+      var authInfo={user:val}
 
 
       return cb(null,authInfo)
@@ -22,6 +22,7 @@ class AuthService {
     })
   }
   login(creds,cb){
+    console.log(creds)
     var formBody = [];
     for (var property in creds) {
       var encodedKey = encodeURIComponent(property);
@@ -30,7 +31,7 @@ class AuthService {
     }
     formBody = formBody.join("&");
 
-    fetch('https://api.test.rentlever.com/users/authenticate', {
+    fetch('http://localhost:9000/users/authenticate', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/x-www-form-urlencoded'
@@ -39,7 +40,7 @@ class AuthService {
     })
     .then((response)=>{
       if(response.status>=200 && response.status <300){
-        return response
+        return response.json()
       }
       throw{
         badCredentials:response.status==401,
@@ -50,10 +51,9 @@ class AuthService {
       return response
     })
     .then((response)=>{
-      console.log(response._bodyText)
-      AsyncStorage.multiSet([
-        [userKey,response._bodyText]
-        ],(err)=> {
+      console.log(response.accessToken)
+      AsyncStorage.setItem(userKey,response.accessToken
+        ,(err)=> {
           if(err){
             throw err;
           }

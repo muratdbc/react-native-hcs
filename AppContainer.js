@@ -10,6 +10,7 @@ import {
 } from 'react-native';
 
 var Jobs=require('./Jobs')
+var Search=require('./Search')
 
 class AppContainer extends Component{
   constructor(props){
@@ -41,9 +42,13 @@ class AppContainer extends Component{
             icon={require('image!schedule')}
             onPress={()=>this.setState({selectedTab: 'search'})}
             >
-            <Text style={styles.welcome}>
-              Search
-            </Text>
+            <NavigatorIOS
+                style={{flex:1}}
+                initialRoute={{
+                  component: Search,
+                  title:'Search'
+                }}
+                />
             </TabBarIOS.Item>
         </TabBarIOS>
         )

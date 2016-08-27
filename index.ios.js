@@ -21,12 +21,10 @@ var HCS =React.createClass({
 
   componentDidMount:function(){
       AuthService.getAuthInfo((err,authInfo)=>{
-        console.log(authInfo)
+        console.log(authInfo!=null)
         this.setState({
           checkingAuth:false,
-          //this logic needs to change
-          //to reflect if the user is logged in
-          isLoggedIn: false
+          isLoggedIn: authInfo!=null
         })
       });
   },
@@ -64,6 +62,7 @@ var HCS =React.createClass({
     }
   }
 })
+
 
 const styles = StyleSheet.create({
   container: {
