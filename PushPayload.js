@@ -6,6 +6,7 @@ import {
   View,
   ListView,
   TouchableHighlight,
+  WebView,
 } from 'react-native';
 
 var moment=require('moment')
@@ -45,7 +46,7 @@ class PushPayload extends Component{
     var buttons;
     console.log(this.state.pushEvent.maintenanceJobStatusId)
     if(this.state.pushEvent.maintenanceJobStatusId==10){
-      buttons= <View style={{flex:1,flexDirection: 'row',justifyContent: 'space-around',paddingTop:80}}>
+      buttons= <View style={{flex:1,flexDirection: 'row',justifyContent: 'space-around',paddingTop:160}}>
               <TouchableHighlight
               onPress={()=>this.onAcceptPressed()}
               style={styles.buttonAccept}>
@@ -62,12 +63,12 @@ class PushPayload extends Component{
               </TouchableHighlight>
               </View>
     }else if(this.state.pushEvent.maintenanceJobStatusId==20){
-      buttons= <View style={{flex:1,flexDirection: 'row',justifyContent: 'space-around',paddingTop:80}}>
+      buttons= <View style={{flex:1,flexDirection: 'row',justifyContent: 'space-around',paddingTop:140}}>
               <TouchableHighlight
               onPress={this.onStartPressed()}
               style={styles.buttonStart}>
               <Text style={styles.buttonText}>
-              Start
+              Start Job
               </Text>
               </TouchableHighlight>
               </View>
@@ -76,7 +77,8 @@ class PushPayload extends Component{
     }
     return(
       <View>
-      <View style={{flex:1,paddingTop:80,paddingLeft:10,justifyContent: 'flex-start'}}>
+      <View>
+        <View style={{flex:1,paddingTop:80,paddingLeft:10,justifyContent: 'flex-start'}}>
         <Text style={styles.jobDetails}>Job Key : {this.state.pushEvent.maintenanceJobKey}</Text>
         <Text style={styles.jobDetails}>Job Date/Time : {moment(this.state.pushEvent.jobDate).format("MMM-DD-YYYY hh:mm a")}</Text>
         <Text style={styles.jobDetails}>Rental Address : {this.state.pushEvent.rental.address1+" "+this.state.pushEvent.rental.address2
@@ -85,9 +87,20 @@ class PushPayload extends Component{
         <Text style={styles.jobDetails}>Rental WIFI Password : {this.state.pushEvent.rental.wifiNetworkPassword}</Text>
         <Text style={styles.jobDetails}>Job Status : {this.state.pushEvent.maintenanceJobStatus.label}</Text>
         <Text style={styles.jobDetails}>Job Type : {this.state.pushEvent.maintenanceJobType.maintenanceJobTypeLabel}</Text>
+        <Text style={styles.jobDetails}>Access Code : {this.state.pushEvent.rental.lockbox}</Text>
+        <TouchableHighlight
+              // onPress={()=>this.onAcceptPressed()}
+              style={styles.buttonAccept}>
+              <Text style={styles.buttonText}>
+              Checklist
+              </Text>
+              </TouchableHighlight>
         </View>
         {buttons}
         </View>
+
+        </View>
+
       )
   }
 }
